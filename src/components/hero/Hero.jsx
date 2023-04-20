@@ -17,14 +17,13 @@ import meet from "../../assets/images/client-meet.svg";
 import Button from "../button/Button";
 
 const Hero = () => {
-  const [heroImage, setHeroImage] = useState(desktopHero);
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   useEffect(() => {
-    console.log(window.innerWidth);
-    window.innerWidth >= 900
-      ? setHeroImage(desktopHero)
-      : setHeroImage(mobileHero);
-  }, [window.innerWidth]);
+    const handleWindowResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener("resize", handleWindowResize);
+    return () => window.removeEventListener("resize", handleWindowResize);
+  }, []);
 
   return (
     <Container>
@@ -45,8 +44,7 @@ const Hero = () => {
         </ClientSection>
       </ContentSection>
       <MediaSection>
-        {console.log(window.innerWidth == 890)}
-        {window.innerWidth >= 900 ? (
+        {windowWidth >= 900 ? (
           <img src={desktopHero} alt="hero" />
         ) : (
           <img src={mobileHero} alt="hero" />
